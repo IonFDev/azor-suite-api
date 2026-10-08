@@ -10,6 +10,15 @@ use App\Http\Controllers\ListadosController;
  * Login route
  */
 Route::post('/login', [AuthController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    /*
+     * Protected routes
+     */
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+});
 /*
  * Lists routes
  */

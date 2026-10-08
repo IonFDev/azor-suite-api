@@ -8,18 +8,31 @@ use App\Models\Listado;
 class ListadosController extends Controller
 {
     public function index()
-    {   
-        try {
+{
+    try {
 
-            $listados = Listado::all();
-            return response()->json($listados);
+        $inicio = microtime(true);
 
-        } catch (\Exception $e) {
+        $listados = Listado::all();
 
-            return response()->json(['message' => 'Error al obtener los listados.', 'error' => $e->getMessage()], 500);
+        $fin = microtime(true);
 
-        }
+        \Log::info(
+            'Consulta listados: ' .
+            (($fin - $inicio) * 1000) .
+            ' ms'
+        );
+
+        return response()->json($listados);
+
+    } catch (\Exception $e) {
+
+        return response()->json([
+            'message' => 'Error al obtener los listados.',
+            'error' => $e->getMessage()
+        ], 500);
     }
+}
 
     public function show($id)
     {
